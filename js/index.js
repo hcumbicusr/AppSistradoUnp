@@ -45,7 +45,7 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
         
         //oculta splash
-        navigator.splashscreen.hide();
+        //navigator.splashscreen.hide();
 
         console.log('Received Event: ' + id);
     }
