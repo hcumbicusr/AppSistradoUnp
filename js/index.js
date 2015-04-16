@@ -39,6 +39,68 @@ $(document).ready(function(){
         receivedEvent('sistrado');
         console.log("Page: 2");
         //--------- Aqui la carga se ha completado correctamente --------------
+        $('#nroRegistro').keypress(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');        
+        });
+        $('#nroDependencia').keypress(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');        
+        });
+        $('#anio').keypress(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');        
+        });
+        $('#dependencia').keypress(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');        
+        });
+        $('#correlativo').keypress(function (){
+            this.value = (this.value + '').replace(/[^0-9]/g, '');        
+        });
+        //-----------------------
+        
+        $("#btnBuscar").click(function (){
+           var request = $.ajax({
+               type: "post",
+               url: "http://200.60.47.81/sistrado/Home/ConsultarDocumento/",
+               dataType: "json",
+               data: {
+                   NroRegistro: $('#nroRegistro').val(),
+                   IdDependencia: $('#nroDependencia').val(),
+                   Anio: $('#anio').val(),
+                   Correlativo: $('#correlativo').val()
+               }
+           });
+           
+           request.done(function(response){
+                var results = response.results;
+                var header = results.header;
+                var data = results.data;
+                
+                console.log(header.Asunto);
+                console.log(data[0].Accion);
+                
+                if (header.Asunto != null)
+                {	
+                    for(i = 0; i<data.length; i++){
+                            $("#tblSistrado tbody").append(
+                                "<tr><td>"+(i+1)+"</td><td>"
+                                +data[i].Origen+"</td><td>"
+                                +data[i].FechaEnvio+"</td><td>"
+                                +data[i].Accion+"</td><td>"
+                                +data[i].Destino+"</td><td>"
+                                +data[i].FechaRecepcion+"</td><td>"
+                                +data[i].Estado+"</td></tr>"
+                            );
+                    }
+                }else
+                {
+                    $("#tblSistrado tbody").html("Sin datos para mostrar");
+                }
+            });
+
+            request.fail(function (jqXHR,txtStatus){
+                console.log("Error: "+txtStatus);
+            });
+           
+        });
         
     }
     // Update DOM on a Received Event

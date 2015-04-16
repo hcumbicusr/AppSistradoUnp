@@ -19,7 +19,62 @@
                 <h1 style="font-weight: bold">SISTRADO UNP - 2015</h1>
             </div>
             <div data-role="content">
-                
+                <div data-role="fieldcontain">
+                    <fieldset>
+                        <label for="nroRegistro">Nro de registro: </label>
+                        <div data-role="fieldcontain">                            
+                            <input type="text"  id="nroRegistro" name="nroRegistro" placeholder="000000" maxlength="6" autofocus required >
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <label for="nroDependencia">Nro de dependencia: </label>
+                        <div data-role="fieldcontain">                            
+                            <input type="text"  id="nroDependencia" name="nroDependencia" placeholder="0000" maxlength="4" required >
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <label for="anio">Año: </label>
+                        <div data-role="fieldcontain">                            
+                            <input type="text"  id="anio" name="anio" placeholder="00" maxlength="2" required >
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <label for="correlativo">Correlativo: </label>
+                        <div data-role="fieldcontain">                            
+                            <input type="text"  id="correlativo" name="correlativo" placeholder="0" maxlength="1" required >
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <a id="btnBuscar" data-role="button" >Buscar</a>
+                    </fieldset>
+                </div>
+                <hr>
+                <div data-role="fieldcontain">
+                    <!--div data-role="panel" id="datos"> <!--  data-display="push" -->
+                        <fieldset>
+                            <div data-role="fieldcontain" id="encadezado">
+                                <!-- datos del encabezado -->
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <table data-role="table" id="tblSistrado"
+                                data-mode="columntoggle" class="ui-responsive" >
+                                <thead>
+                                    <tr class="ui-bar-inherit">
+                                        <th data-priority="1" >Origen</th>
+                                        <th data-priority="1" >F. Envío</th>
+                                        <th data-priority="1" >Acción</th>
+                                        <th data-priority="1" >Destino</th>
+                                        <th data-priority="1" >F. Recepción</th>
+                                        <th data-priority="1" >Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    <!--</div> -->
+                </div>
             </div>
             <div data-role="footer" data-position="fixed">
                 <h1>&COPY; 2015 - SISTRADO UNP</h1>
