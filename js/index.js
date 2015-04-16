@@ -74,11 +74,19 @@ $(document).ready(function(){
                 var header = results.header;
                 var data = results.data;
                 
+                $("#tblSistrado tbody").html("");
+                
                 console.log(header.Asunto);
                 console.log(data[0].Accion);
                 
                 if (header.Asunto != null)
-                {	
+                {
+                    $("#encadezado").append(
+                           "<label>Asunto: "+header.Asunto+"</label>"
+                           +"<label>Solicitante: "+header.Solicitante+"</label>"
+                           +"<label>Encabezado: "+header.Encabezado+"</label>"
+                           );
+                    
                     for(i = 0; i<data.length; i++){
                             $("#tblSistrado tbody").append(
                                 "<tr><td>"+(i+1)+"</td><td>"
