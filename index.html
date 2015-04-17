@@ -54,11 +54,17 @@
                         <fieldset>
                             <div data-role="fieldcontain" id="encadezado">
                                 <!-- datos del encabezado -->
+                                <fieldset id="asunto"></fieldset>
+                                <fieldset id="solicitante"></fieldset>
+                                <fieldset id="encabezado"></fieldset>
                             </div>
                         </fieldset>
                         <fieldset>
-                            <table data-role="table" id="tblSistrado"
-                                data-mode="columntoggle" class="ui-responsive" >
+                            <table data-role="table" id="tblSistrado" data-mode="columntoggle" 
+                                   class="ui-body-d ui-shadow table-stripe ui-responsive" 
+                                   data-column-btn-theme="b" 
+                                   data-column-btn-text="Columns to display..." 
+                                   data-column-popup-theme="a">
                                 <thead>
                                     <tr class="ui-bar-inherit">
                                         <th data-priority="1" >Origen</th>

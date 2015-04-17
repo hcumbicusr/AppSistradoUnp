@@ -81,11 +81,9 @@ $(document).ready(function(){
                 
                 if (header.Asunto != null)
                 {
-                    $("#encadezado").append(
-                           "<label>Asunto: "+header.Asunto+"</label>"
-                           +"<label>Solicitante: "+header.Solicitante+"</label>"
-                           +"<label>Encabezado: "+header.Encabezado+"</label>"
-                           );
+                    $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>");
+                    $("#solicitante").html("<label><b>Solicitante:</b> "+header.Solicitante+"</label><br>");
+                    $("#encabezado").html("<label><b>Encabezado:</b> "+header.Encabezado+"</label><br>");
                     
                     for(i = 0; i<data.length; i++){
                             $("#tblSistrado tbody").append(
