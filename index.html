@@ -50,35 +50,19 @@
                 </div>
                 <hr>
                 <div data-role="fieldcontain">
+                    <div id="carga" style="width: 100%; text-align: center"></div>
                     <!--div data-role="panel" id="datos"> <!--  data-display="push" -->
                         <fieldset>
-                            <div data-role="fieldcontain" id="encadezado">
+                            <div data-role="fieldcontain">
                                 <!-- datos del encabezado -->
                                 <fieldset id="asunto"></fieldset>
                                 <fieldset id="solicitante"></fieldset>
                                 <fieldset id="encabezado"></fieldset>
                             </div>
                         </fieldset>
-                        <fieldset>
-                            <table data-role="table" id="tblSistrado" data-mode="columntoggle" 
-                                   class="ui-body-d ui-shadow table-stripe ui-responsive" 
-                                   data-column-btn-theme="b" 
-                                   data-column-btn-text="Columns to display..." 
-                                   data-column-popup-theme="a">
-                                <thead>
-                                    <tr class="ui-bar-inherit">
-                                        <th data-priority="1" >Origen</th>
-                                        <th data-priority="1" >F. Envío</th>
-                                        <th data-priority="1" >Acción</th>
-                                        <th data-priority="1" >Destino</th>
-                                        <th data-priority="1" >F. Recepción</th>
-                                        <th data-priority="1" >Estado</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </fieldset>
+                        <div id="table" class="table-stripe ui-responsive">
+                            
+                        </div>
                     <!--</div> -->
                 </div>
             </div>

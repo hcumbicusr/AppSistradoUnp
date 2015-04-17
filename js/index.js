@@ -38,6 +38,8 @@ $(document).ready(function(){
         console.log("Page: 1");
         receivedEvent('sistrado');
         console.log("Page: 2");
+        //no cargar enlaces
+        //$("#tblSistrado-popup").css("display","none");
         //--------- Aqui la carga se ha completado correctamente --------------
         $('#nroRegistro').keypress(function (){
             this.value = (this.value + '').replace(/[^0-9]/g, '');        
@@ -48,16 +50,60 @@ $(document).ready(function(){
         $('#anio').keypress(function (){
             this.value = (this.value + '').replace(/[^0-9]/g, '');        
         });
-        $('#dependencia').keypress(function (){
-            this.value = (this.value + '').replace(/[^0-9]/g, '');        
-        });
         $('#correlativo').keypress(function (){
             this.value = (this.value + '').replace(/[^0-9]/g, '');        
         });
         //-----------------------
+        function onBlud(e) {
+            var val = $(this).val(), max = $(this).attr("maxlength");
+            var ceros = "";
+            for (var i = 0; i < max - 1; i++) {
+                ceros += "0";
+            };
+
+            if (val != '') {
+                var newval = (ceros + val).slice(-max);
+                $(this).val(newval);
+            }
+        };
+
+        function onKeyup(e) {
+            var key = e.keyCode || event.which;
+            if (key === 13) {
+                $(this).blur();
+                $(this).next().next().focus();
+            }
+        };
+        
+        $('#nroRegistro').blur(onBlud);
+        $('#nroDependencia').blur(onBlud);
+        $('#anio').blur(onBlud);
+        $('#correlativo').blur(onBlud);
+
+        $('#nroRegistro').keyup(onKeyup);
+        $('#nroDependencia').keyup(onKeyup);
+        $('#anio').keyup(onKeyup);
+        $('#correlativo').keyup(function(e){
+            var key = e.keyCode || event.which;
+                if (key === 13) {
+                    $(this).blur();
+                    $("#btnBuscar").click();
+                }
+        });
         
         $("#btnBuscar").click(function (){
-           var request = $.ajax({
+           
+            $("#asunto").html("");
+            $("#solicitante").html("");
+            $("#encabezado").html("");
+            $("#table").html("");
+            
+            $("#asunto").css("text-align","justify");
+                        
+            $('#carga').html('<div><img src="img/loading.gif" width="30%"></div>');
+            $('#carga').fadeIn(1000).css("display","block");
+           
+            var request = $.ajax({
                type: "post",
                url: "http://200.60.47.81/sistrado/Home/ConsultarDocumento/",
                dataType: "json",
@@ -72,33 +118,63 @@ $(document).ready(function(){
            request.done(function(response){
                 var results = response.results;
                 var header = results.header;
-                var data = results.data;
-                
-                $("#tblSistrado tbody").html("");
+                var data = results.data;                                
                 
                 console.log(header.Asunto);
-                console.log(data[0].Accion);
+                //console.log(data[0].Accion);
+                console.log("DAta: "+data.length);
+                // tabla
+                var tabla = "<table data-role='table' id='tblSistrado' data-mode='columntoggle' "
+                                   +"class='ui-body-d ui-shadow table-stripe ui-responsive' "
+                                   +"data-column-btn-theme='b' "
+                                   +"data-column-btn-text='Columns to display...' "
+                                   +"data-column-popup-theme='a'>"
+                                +"<thead>"
+                                    +"<tr class='ui-bar-inherit'>"
+                                        +"<th data-priority='1' >N°</th>"
+                                        +"<th data-priority='1' >Origen</th>"
+                                        +"<th data-priority='1' >F. Envío</th>"
+                                        +"<th data-priority='1' >Acción</th>"
+                                        +"<th data-priority='1' >Destino</th>"
+                                        +"<th data-priority='1' >F. Recepción</th>"
+                                        +"<th data-priority='1' >Estado</th>"
+                                    +"</tr>"
+                                +"</thead>"
+                                +"<tbody>";
+                               
                 
-                if (header.Asunto != null)
+                if (data.length > 0)
                 {
-                    $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>");
+                    $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>").css("color","#000000");
                     $("#solicitante").html("<label><b>Solicitante:</b> "+header.Solicitante+"</label><br>");
                     $("#encabezado").html("<label><b>Encabezado:</b> "+header.Encabezado+"</label><br>");
                     
                     for(i = 0; i<data.length; i++){
-                            $("#tblSistrado tbody").append(
+                            tabla +=
                                 "<tr><td>"+(i+1)+"</td><td>"
                                 +data[i].Origen+"</td><td>"
                                 +data[i].FechaEnvio+"</td><td>"
                                 +data[i].Accion+"</td><td>"
                                 +data[i].Destino+"</td><td>"
                                 +data[i].FechaRecepcion+"</td><td>"
-                                +data[i].Estado+"</td></tr>"
-                            );
+                                +data[i].Estado+"</td></tr>";
                     }
+                    tabla +=  "</tbody>"
+                              +"</table>";
+                    
+                    $('#carga').fadeOut(1000).css("display","none");// fin cargando
+                    $("#table").html(tabla);
+                    
                 }else
                 {
-                    $("#tblSistrado tbody").html("Sin datos para mostrar");
+                    $("#asunto").html("");
+                    $("#solicitante").html("");
+                    $("#encabezado").html("");
+                    
+                    $("#table").html("");
+                    $('#carga').fadeOut(1000).css("display","none");// fin cargando
+                    $("#asunto").html("No se encontró el expediente").css("color","#FF0000");
+                    $("#asunto").css("text-align","center");
                 }
             });
 
