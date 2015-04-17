@@ -102,21 +102,20 @@ $(document).ready(function(){
             else
                 return true;
         }
-        $("#tblSistrado_wrapper").css("display","none");
+        $("#table").css("display","none");
         
         $("#btnBuscar").click(function (){
            
             $("#asunto").html("");
             $("#solicitante").html("");
             $("#encabezado").html("");
-            $("#table").html("");
             
             $("#asunto").css("text-align","justify");
                         
             $('#carga').html('<div><img src="img/loading.gif" width="30%"></div>');
             $('#carga').fadeIn(1000).css("display","block");
-            
-            $("#tblSistrado_wrapper").css("display","none");
+                        
+            $("#table").css("display","none");            
            
            if (vacio($('#nroRegistro').val()) && vacio($('#nroDependencia').val()) && vacio($('#anio').val()) && vacio($('#correlativo').val()))
            {            
@@ -141,11 +140,13 @@ $(document).ready(function(){
                      //console.log(data[0].Accion);
                      console.log("DAta: "+data.length);
                      // tabla
-                     $("#tblSistrado_wrapper").css("display","block");
+                     $("#table").css("display","block");
+                     $("#tblSistrado").css("display","block");
+                     //$("#tblSistrado").html("");                     
                      
                      var tabla = $("#tblSistrado tbody");
-
-
+                     tabla.html("");
+                     
                      if (data.length > 0)
                      {
                          $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>").css("color","#000000");
@@ -165,15 +166,17 @@ $(document).ready(function(){
 
                          $('#carga').fadeOut(1000).css("display","none");// fin cargando                         
                          $("#tblSistrado").DataTable({
-                             "scrollX": true
+                              destroy: true,
+                              scrollX: true
                          });
                      }else
                      {
                          $("#asunto").html("");
                          $("#solicitante").html("");
                          $("#encabezado").html("");
-
+                         
                          tabla.html("");
+                         $("#table").css("display","none");
                          $('#carga').fadeOut(1000).css("display","none");// fin cargando
                          $("#asunto").html("No se encontró el expediente").css("color","#FF0000");
                          $("#asunto").css("text-align","center");
@@ -182,6 +185,7 @@ $(document).ready(function(){
 
                  request.fail(function (jqXHR,txtStatus){
                      console.log("Error: "+txtStatus);
+                     $("#table").css("display","none");
                  });
                 
            }else
@@ -190,9 +194,8 @@ $(document).ready(function(){
              $("#solicitante").html("");
              $("#encabezado").html("");
 
-             $("#table").html("");
              $('#carga').fadeOut(1000).css("display","none");// fin cargando
-             $("#tblSistrado_wrapper").css("display","none");
+             $("#table").css("display","node");
              $("#asunto").html("Debe completar todos los campos").css("color","#FF0000");
              $("#asunto").css("text-align","center");
            }
