@@ -102,6 +102,7 @@ $(document).ready(function(){
             else
                 return true;
         }
+        $("#tblSistrado_wrapper").css("display","none");
         
         $("#btnBuscar").click(function (){
            
@@ -114,6 +115,8 @@ $(document).ready(function(){
                         
             $('#carga').html('<div><img src="img/loading.gif" width="30%"></div>');
             $('#carga').fadeIn(1000).css("display","block");
+            
+            $("#tblSistrado_wrapper").css("display","none");
            
            if (vacio($('#nroRegistro').val()) && vacio($('#nroDependencia').val()) && vacio($('#anio').val()) && vacio($('#correlativo').val()))
            {            
@@ -138,6 +141,8 @@ $(document).ready(function(){
                      //console.log(data[0].Accion);
                      console.log("DAta: "+data.length);
                      // tabla
+                     $("#tblSistrado_wrapper").css("display","block");
+                     
                      var tabla = $("#tblSistrado tbody");
 
 
@@ -158,7 +163,7 @@ $(document).ready(function(){
                                      +data[i].Estado+"</td></tr>");
                          }
 
-                         $('#carga').fadeOut(1000).css("display","none");// fin cargando
+                         $('#carga').fadeOut(1000).css("display","none");// fin cargando                         
                          $("#tblSistrado").DataTable({
                              "scrollX": true
                          });
@@ -187,6 +192,7 @@ $(document).ready(function(){
 
              $("#table").html("");
              $('#carga').fadeOut(1000).css("display","none");// fin cargando
+             $("#tblSistrado_wrapper").css("display","none");
              $("#asunto").html("Debe completar todos los campos").css("color","#FF0000");
              $("#asunto").css("text-align","center");
            }
