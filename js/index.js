@@ -16,6 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/**
+ * @author Cumbicus Rivera Henry (hcumbicusr@gmail.com)
+ * @version v1.0
+ */
 $(document).ready(function(){
 
     initialize();
@@ -91,6 +95,14 @@ $(document).ready(function(){
                 }
         });
         
+        function vacio (value)
+        {
+            if (value.length == 0)
+                return false;
+            else
+                return true;
+        }
+        
         $("#btnBuscar").click(function (){
            
             $("#asunto").html("");
@@ -103,84 +115,98 @@ $(document).ready(function(){
             $('#carga').html('<div><img src="img/loading.gif" width="30%"></div>');
             $('#carga').fadeIn(1000).css("display","block");
            
-            var request = $.ajax({
-               type: "post",
-               url: "http://200.60.47.81/sistrado/Home/ConsultarDocumento/",
-               dataType: "json",
-               data: {
-                   NroRegistro: $('#nroRegistro').val(),
-                   IdDependencia: $('#nroDependencia').val(),
-                   Anio: $('#anio').val(),
-                   Correlativo: $('#correlativo').val()
-               }
-           });
-           
-           request.done(function(response){
-                var results = response.results;
-                var header = results.header;
-                var data = results.data;                                
-                
-                console.log(header.Asunto);
-                //console.log(data[0].Accion);
-                console.log("DAta: "+data.length);
-                // tabla
-                var tabla = "<table data-role='table' id='tblSistrado' data-mode='columntoggle' "
-                                   +"class='ui-body-d ui-shadow table-stripe ui-responsive' "
-                                   +"data-column-btn-theme='b' "
-                                   +"data-column-btn-text='Columns to display...' "
-                                   +"data-column-popup-theme='a'>"
-                                +"<thead>"
-                                    +"<tr class='ui-bar-inherit'>"
-                                        +"<th data-priority='1' >N°</th>"
-                                        +"<th data-priority='1' >Origen</th>"
-                                        +"<th data-priority='1' >F. Envío</th>"
-                                        +"<th data-priority='1' >Acción</th>"
-                                        +"<th data-priority='1' >Destino</th>"
-                                        +"<th data-priority='1' >F. Recepción</th>"
-                                        +"<th data-priority='1' >Estado</th>"
-                                    +"</tr>"
-                                +"</thead>"
-                                +"<tbody>";
-                               
-                
-                if (data.length > 0)
-                {
-                    $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>").css("color","#000000");
-                    $("#solicitante").html("<label><b>Solicitante:</b> "+header.Solicitante+"</label><br>");
-                    $("#encabezado").html("<label><b>Encabezado:</b> "+header.Encabezado+"</label><br>");
-                    
-                    for(i = 0; i<data.length; i++){
-                            tabla +=
-                                "<tr><td>"+(i+1)+"</td><td>"
-                                +data[i].Origen+"</td><td>"
-                                +data[i].FechaEnvio+"</td><td>"
-                                +data[i].Accion+"</td><td>"
-                                +data[i].Destino+"</td><td>"
-                                +data[i].FechaRecepcion+"</td><td>"
-                                +data[i].Estado+"</td></tr>";
+           if (vacio($('#nroRegistro').val()) && vacio($('#nroDependencia').val()) && vacio($('#anio').val()) && vacio($('#correlativo').val()))
+           {            
+                var request = $.ajax({
+                    type: "post",
+                    url: "http://200.60.47.81/sistrado/Home/ConsultarDocumento/",
+                    dataType: "json",
+                    data: {
+                        NroRegistro: $('#nroRegistro').val(),
+                        IdDependencia: $('#nroDependencia').val(),
+                        Anio: $('#anio').val(),
+                        Correlativo: $('#correlativo').val()
                     }
-                    tabla +=  "</tbody>"
-                              +"</table>";
-                    
-                    $('#carga').fadeOut(1000).css("display","none");// fin cargando
-                    $("#table").html(tabla);
-                    
-                }else
-                {
-                    $("#asunto").html("");
-                    $("#solicitante").html("");
-                    $("#encabezado").html("");
-                    
-                    $("#table").html("");
-                    $('#carga').fadeOut(1000).css("display","none");// fin cargando
-                    $("#asunto").html("No se encontró el expediente").css("color","#FF0000");
-                    $("#asunto").css("text-align","center");
-                }
-            });
+                });
 
-            request.fail(function (jqXHR,txtStatus){
-                console.log("Error: "+txtStatus);
-            });
+                request.done(function(response){
+                     var results = response.results;
+                     var header = results.header;
+                     var data = results.data;                                
+
+                     console.log(header.Asunto);
+                     //console.log(data[0].Accion);
+                     console.log("DAta: "+data.length);
+                     // tabla
+                     var tabla = "<table data-role='table' id='tblSistrado' data-mode='columntoggle' "
+                                        +"class='ui-body-d ui-shadow table-stripe ui-responsive' "
+                                        +"data-column-btn-theme='b' "
+                                        +"data-column-btn-text='Columns to display...' "
+                                        +"data-column-popup-theme='a'>"
+                                     +"<thead>"
+                                         +"<tr class='ui-bar-inherit'>"
+                                             +"<th data-priority='1' >N°</th>"
+                                             +"<th data-priority='1' >Origen</th>"
+                                             +"<th data-priority='1' >F. Envío</th>"
+                                             +"<th data-priority='1' >Acción</th>"
+                                             +"<th data-priority='1' >Destino</th>"
+                                             +"<th data-priority='1' >F. Recepción</th>"
+                                             +"<th data-priority='1' >Estado</th>"
+                                         +"</tr>"
+                                     +"</thead>"
+                                     +"<tbody>";
+
+
+                     if (data.length > 0)
+                     {
+                         $("#asunto").html("<label><b>Asunto:</b> "+header.Asunto+"</label><br>").css("color","#000000");
+                         $("#solicitante").html("<label><b>Solicitante:</b> "+header.Solicitante+"</label><br>");
+                         $("#encabezado").html("<label><b>Encabezado:</b> "+header.Encabezado+"</label><br>");
+
+                         for(i = 0; i<data.length; i++){
+                                 tabla +=
+                                     "<tr><td>"+(i+1)+"</td><td>"
+                                     +data[i].Origen+"</td><td>"
+                                     +data[i].FechaEnvio+"</td><td>"
+                                     +data[i].Accion+"</td><td>"
+                                     +data[i].Destino+"</td><td>"
+                                     +data[i].FechaRecepcion+"</td><td>"
+                                     +data[i].Estado+"</td></tr>";
+                         }
+                         tabla +=  "</tbody>"
+                                   +"</table>";
+
+                         $('#carga').fadeOut(1000).css("display","none");// fin cargando
+                         $("#table").html(tabla);
+
+                     }else
+                     {
+                         $("#asunto").html("");
+                         $("#solicitante").html("");
+                         $("#encabezado").html("");
+
+                         $("#table").html("");
+                         $('#carga').fadeOut(1000).css("display","none");// fin cargando
+                         $("#asunto").html("No se encontró el expediente").css("color","#FF0000");
+                         $("#asunto").css("text-align","center");
+                     }
+                 });
+
+                 request.fail(function (jqXHR,txtStatus){
+                     console.log("Error: "+txtStatus);
+                 });
+                
+           }else
+           {
+               $("#asunto").html("");
+             $("#solicitante").html("");
+             $("#encabezado").html("");
+
+             $("#table").html("");
+             $('#carga').fadeOut(1000).css("display","none");// fin cargando
+             $("#asunto").html("Debe completar todos los campos").css("color","#FF0000");
+             $("#asunto").css("text-align","center");
+           }
            
         });
         
