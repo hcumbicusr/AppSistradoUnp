@@ -138,23 +138,7 @@ $(document).ready(function(){
                      //console.log(data[0].Accion);
                      console.log("DAta: "+data.length);
                      // tabla
-                     var tabla = "<table data-role='table' id='tblSistrado' data-mode='columntoggle' "
-                                        +"class='ui-body-d ui-shadow table-stripe ui-responsive' "
-                                        +"data-column-btn-theme='b' "
-                                        +"data-column-btn-text='Columns to display...' "
-                                        +"data-column-popup-theme='a'>"
-                                     +"<thead>"
-                                         +"<tr class='ui-bar-inherit'>"
-                                             +"<th data-priority='1' >N°</th>"
-                                             +"<th data-priority='1' >Origen</th>"
-                                             +"<th data-priority='1' >F. Envío</th>"
-                                             +"<th data-priority='1' >Acción</th>"
-                                             +"<th data-priority='1' >Destino</th>"
-                                             +"<th data-priority='1' >F. Recepción</th>"
-                                             +"<th data-priority='1' >Estado</th>"
-                                         +"</tr>"
-                                     +"</thead>"
-                                     +"<tbody>";
+                     var tabla = $("#tblSistrado tbody");
 
 
                      if (data.length > 0)
@@ -164,28 +148,27 @@ $(document).ready(function(){
                          $("#encabezado").html("<label><b>Encabezado:</b> "+header.Encabezado+"</label><br>");
 
                          for(i = 0; i<data.length; i++){
-                                 tabla +=
+                                 tabla.append(
                                      "<tr><td>"+(i+1)+"</td><td>"
                                      +data[i].Origen+"</td><td>"
                                      +data[i].FechaEnvio+"</td><td>"
                                      +data[i].Accion+"</td><td>"
                                      +data[i].Destino+"</td><td>"
                                      +data[i].FechaRecepcion+"</td><td>"
-                                     +data[i].Estado+"</td></tr>";
+                                     +data[i].Estado+"</td></tr>");
                          }
-                         tabla +=  "</tbody>"
-                                   +"</table>";
 
                          $('#carga').fadeOut(1000).css("display","none");// fin cargando
-                         $("#table").html(tabla);
-
+                         $("#tblSistrado").DataTable({
+                             "scrollX": true
+                         });
                      }else
                      {
                          $("#asunto").html("");
                          $("#solicitante").html("");
                          $("#encabezado").html("");
 
-                         $("#table").html("");
+                         tabla.html("");
                          $('#carga').fadeOut(1000).css("display","none");// fin cargando
                          $("#asunto").html("No se encontró el expediente").css("color","#FF0000");
                          $("#asunto").css("text-align","center");
